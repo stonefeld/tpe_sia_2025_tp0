@@ -8,28 +8,19 @@ factory = PokemonFactory("pokemon.json")
 pokemon_names = ["jolteon", "caterpie", "snorlax", "onix", "mewtwo"]
 pokeballs = ["pokeball", "ultraball", "fastball", "heavyball"]
 
-while True:
-    results = {pokemon: {ball: 0 for ball in pokeballs} for pokemon in pokemon_names}
+results = {pokemon: {ball: 0 for ball in pokeballs} for pokemon in pokemon_names}
 
-    for pokemon_name in pokemon_names:
-        for ball in pokeballs:
-            pokemon = factory.create(pokemon_name, 50, StatusEffect.NONE, 1.0)
-            rates = [attempt_catch(pokemon, ball, 0.15)[1] for _ in range(100)]
-            results[pokemon_name][ball] = np.mean(rates)
+for pokemon_name in pokemon_names:
+    for ball in pokeballs:
+        pokemon = factory.create(pokemon_name, 50, StatusEffect.NONE, 1.0)
+        rates = [attempt_catch(pokemon, ball, 0.15)[1] for _ in range(1000)]
+        results[pokemon_name][ball] = np.mean(rates)
     
-    relative_effectiveness = {}
-    error_detected = False
+relative_effectiveness = {}
     
-    for pokemon in pokemon_names:
-        pokeball_success = results[pokemon]["pokeball"]
-        if pokeball_success == 0:
-            error_detected = True
-            break  # Se detectó un error, repetir simulación
-        
-        relative_effectiveness[pokemon] = {ball: results[pokemon][ball] / pokeball_success for ball in pokeballs}
-    
-    if not error_detected:
-        break  # Si no hay error, salir del loop
+for pokemon in pokemon_names:
+    pokeball_success = results[pokemon]["pokeball"] 
+    relative_effectiveness[pokemon] = {ball: results[pokemon][ball] / pokeball_success for ball in pokeballs}
 
 plt.figure(figsize=(10, 6))
 for pokemon, effectiveness in relative_effectiveness.items():

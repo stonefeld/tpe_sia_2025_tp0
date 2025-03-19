@@ -32,6 +32,7 @@ for pokemon, result_data in results.items():
     plt.title(f"Efecto de la Vida en la Captura de {pokemon.capitalize()}")
 
     plt.grid(axis="y", linestyle="--", alpha=0.7)
+    plt.ylim(0, 100)
 
     for i, rate in enumerate(data.values()):
         plt.text(i, rate, f"{rate:.2f}%", ha="center", va="bottom")

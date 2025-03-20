@@ -24,10 +24,11 @@ uv sync
 
 # Corriendo el proyecto
 
-```bash
-# Desde la consola
-python main.py [config_file]
+El proyecto fue probado en primera instancia con archivos dentro de la carpeta
+`scripts/` pero luego fue pasado a un _Notebook_ de _Jupyter_ llamado
+`analisis_notebook.ipynb`. Para poder abrirlo correr lo siguiente.
 
+```bash
 # Para abrir el notebook de jupyter
 jupyter notebook
 ```

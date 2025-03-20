@@ -1,0 +1,1127 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+
+    \usepackage{titlesec}
+    \renewcommand*\contentsname{Tabla de contenidos}
+
+
+
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+
+
+
+
+
+
+
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+
+
+
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{72.27 - Sistemas de Inteligencia Artificial}
+\rhead{Grupo 6}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \includegraphics[width=0.25\textwidth]{itba_logo}\par\vspace{1cm}
+  {\textsc{Instituto Tecnológico de Buenos Aires} \par}
+    \vspace{1cm}
+    {\Large \textsc{TP 0}\par}
+    \vspace{1.5cm}
+    {\huge\bfseries Introducción al Análisis de Datos\par}
+    \vspace{2cm}
+    {\Large\itshape Boullosa Gutierrez, Juan Cruz - 63414\\
+	Deyheralde, Ben - 63559\\
+	Freire, Tomás - 62027\\
+	Stanfield, Theo - 63403\par}
+    \vfill
+    Sistema de Inteligencia Artificial - 72.27
+    \vfill
+    {\large Primer cuatrimestre 2025 - Grupo 6\par}
+\end{titlepage}
+
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+
+\newpage
+
+
+
+
+\section{Preguntas Guía}\label{preguntas-guuxeda}
+
+Se desea evaluar qué factores influyen en la captura de un Pokemon
+teniendo en cuenta los parámetros del mismo junto con la pokebola
+utilizada. Para ello se deberán generar distintos gráficos que
+representen las respuestas a las siguientes preguntas guía:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Acerca de las pokebolas:
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    Ejecutando la función 100 veces, para cada Pokemon en condiciones
+    ideales (HP: 100\%, LVL 100) ¿Cuál es la probabilidad de capturar
+    promedio para cada pokebola?
+  \item
+    ¿Es cierto que algunas pokebolas son más o menos efectivas
+    dependiendo de propiedades intrínsecas de cada Pokemon? Justificar.
+    \begin{quote}
+      \textgreater{} \textbf{Sugerencia}: Comparar efectividad
+      (\emph{success/total\_attempts}) como proporción de la efectividad
+      de la Pokebola básica para cada Pokemon
+    \end{quote}
+  \end{enumerate}
+\item
+  Acerca del estado del Pokemon:
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \item
+    ¿Las condiciones de salud tienen algún efecto sobre la efectividad
+    de la captura? Si es ası́, ¿Cuál es más o menos efectiva?
+  \item
+    ¿Cómo afectan los puntos de vida a la efectividad de la captura?
+    \begin{quote}
+      \textgreater{} \textbf{Sugerencia}: Elegir uno o dos Pokemones y
+      manteniendo el resto de los parámetros constantes, calcular la
+      probabilidad de captura para distintos HP \%
+    \end{quote}
+  \item
+    ¿Qué parámetros son los que más afectan la probabilidad de captura?
+  \item
+    Teniendo en cuenta uno o dos pokemones distintos: ¿Qué combinación
+    de condiciones (propiedades mutables) y pokebola conviene utilizar
+    para capturarlos?
+  \item
+    A partir del punto anterior, ¿serı́a efectiva otra combinación de
+    parámetros teniendo en cuenta un nivel del pokemon más bajo (o más
+    alto)?
+  \end{enumerate}
+\end{enumerate}
+
+    \section{Preparando el entorno}\label{preparando-el-entorno}
+
+Para poder realizar las consignas solicitadas primero debemos preparare
+el entorno de trabajo, importando los módulos necesarios:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{matplotlib}: módulo encargado de la realización de gráficos.
+\item
+  \texttt{numpy}: módulo que simplifica los cálculos con vectores y
+  matrices.
+\end{itemize}
+
+A su vez tenemos también módulos locales:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{attempt\_catch}: es la función encargada de calcular la
+  probabilidad de atrapar al \textbf{Pokemon}.
+\item
+  \texttt{PokemonFactory}: clase encargada de generar \textbf{Pokemones}
+  en base a un archivo de entrada de tipo \emph{json}.
+\item
+  \texttt{StatusEffect}: estructura que simula toda la información
+  respecto a los posibles estados de salud del \textbf{Pokemon}.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{src}\PY{n+nn}{.}\PY{n+nn}{catching}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{attempt\PYZus{}catch}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{src}\PY{n+nn}{.}\PY{n+nn}{pokemon}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{PokemonFactory}\PY{p}{,} \PY{n}{StatusEffect}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Ahora, creamos un \emph{factory} encargado de generar todos los
+\textbf{Pokemones} en base a un archivo \emph{json} que los define.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{factory} \PY{o}{=} \PY{n}{PokemonFactory}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pokemon.json}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Definamos también los posibles \textbf{Pokemones}, junto con las
+posibles \textbf{Pokeballs} a utilizar en la resolución de las
+consignas.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pokemons} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{caterpie}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{onix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{jolteon}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{snorlax}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mewtwo}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n}{pokeballs} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pokeball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ultraball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fastball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{heavyball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \section{Resolución}\label{resoluciuxf3n}
+
+\subsection{Punto 1a}\label{punto-1a}
+
+Para resolver este punto, realizaremos 100 intentos de captura con cada
+\textbf{Pokeball} por cada \textbf{Pokemon}. Calcularemos luego el
+promedio de todos los \emph{capture\_rate} obtenidos.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{pokemon\PYZus{}name} \PY{o+ow}{in} \PY{n}{pokemons}\PY{p}{:}
+    \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{pokemon} \PY{o}{=} \PY{n}{factory}\PY{o}{.}\PY{n}{create}\PY{p}{(}\PY{n}{pokemon\PYZus{}name}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{NONE}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{ball} \PY{o+ow}{in} \PY{n}{pokeballs}\PY{p}{:}
+        \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{ball}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+        \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+            \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{capture\PYZus{}rate} \PY{o}{=} \PY{n}{attempt\PYZus{}catch}\PY{p}{(}\PY{n}{pokemon}\PY{p}{,} \PY{n}{ball}\PY{p}{)}
+            \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{ball}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{capture\PYZus{}rate}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Ahora que ya tenemos los resultados, calculemos el promedio de la
+probabilidad de capturar a cada \textbf{Pokemon}. Para eso realizaremos
+un gráfico por cada \textbf{Pokemon} que se intentó capturar, mostrando
+el promedio de la probabilidad de captura para cada \textbf{Pokeball}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{pokemon}\PY{p}{,} \PY{n}{result\PYZus{}data} \PY{o+ow}{in} \PY{n}{results}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{data} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{ball}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{r}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{for} \PY{n}{ball}\PY{p}{,} \PY{n}{r} \PY{o+ow}{in} \PY{n}{result\PYZus{}data}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{data}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{skyblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Tipo de Pokeball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Probabilidad de captura}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Probabilidad de captura de }\PY{l+s+si}{\PYZob{}}\PY{n}{pokemon}\PY{o}{.}\PY{n}{capitalize}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{rate} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{rate}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{rate}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bottom}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{block}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    Podemos observar que la \textbf{Ultraball} duplica la efectividad de la
+\textbf{Pokeball} básica mientras que la \textbf{Heavyball} y la
+\textbf{Fastball} varían dependiendo
+
+    \subsection{Punto 1b}\label{punto-1b}
+
+Para resolver este punto realizamos 1000 intentos de captura con cada
+\textbf{Pokeball} por cada \textbf{Pokemon}. Luego se calcula el
+\emph{success rate} calculando el promedio de éxitos de cada
+\textbf{Pokeball} por cada \textbf{Pokemon}. Por último por cada
+\textbf{Pokeball} se calcula la efectividad relativa dividiendo su
+\emph{success rate} por la de la \textbf{Pokeball} básica. Lo hacemos
+con 1000 intentos porque al hacerlo con 100 nos pasaba que la
+probabilidad de captura para la \textbf{Pokeball} básica quedaba muy
+cercano a 0 y al calcular el \emph{success rate} relativo nos daban
+números no representativos.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{pokemon}\PY{p}{:} \PY{p}{\PYZob{}}\PY{n}{ball}\PY{p}{:} \PY{l+m+mi}{0} \PY{k}{for} \PY{n}{ball} \PY{o+ow}{in} \PY{n}{pokeballs}\PY{p}{\PYZcb{}} \PY{k}{for} \PY{n}{pokemon} \PY{o+ow}{in} \PY{n}{pokemon\PYZus{}names}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{pokemon\PYZus{}name} \PY{o+ow}{in} \PY{n}{pokemon\PYZus{}names}\PY{p}{:}
+    \PY{k}{for} \PY{n}{ball} \PY{o+ow}{in} \PY{n}{pokeballs}\PY{p}{:}
+        \PY{n}{pokemon} \PY{o}{=} \PY{n}{factory}\PY{o}{.}\PY{n}{create}\PY{p}{(}\PY{n}{pokemon\PYZus{}name}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{NONE}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{)}
+        \PY{n}{rates} \PY{o}{=} \PY{p}{[}\PY{n}{attempt\PYZus{}catch}\PY{p}{(}\PY{n}{pokemon}\PY{p}{,} \PY{n}{ball}\PY{p}{,} \PY{l+m+mf}{0.15}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{]}
+        \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{ball}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{rates}\PY{p}{)}
+
+\PY{n}{relative\PYZus{}effectiveness} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{pokemon} \PY{o+ow}{in} \PY{n}{pokemon\PYZus{}names}\PY{p}{:}
+    \PY{n}{pokeball\PYZus{}success} \PY{o}{=} \PY{n}{results}\PY{p}{[}\PY{n}{pokemon}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pokeball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{relative\PYZus{}effectiveness}\PY{p}{[}\PY{n}{pokemon}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{ball}\PY{p}{:} \PY{n}{results}\PY{p}{[}\PY{n}{pokemon}\PY{p}{]}\PY{p}{[}\PY{n}{ball}\PY{p}{]} \PY{o}{/} \PY{n}{pokeball\PYZus{}success} \PY{k}{for} \PY{n}{ball} \PY{o+ow}{in} \PY{n}{pokeballs}\PY{p}{\PYZcb{}}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{k}{for} \PY{n}{pokemon}\PY{p}{,} \PY{n}{effectiveness} \PY{o+ow}{in} \PY{n}{relative\PYZus{}effectiveness}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{pokeballs}\PY{p}{,} \PY{n+nb}{list}\PY{p}{(}\PY{n}{effectiveness}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{pokemon}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Tipo de Pokébola}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Efectividad Relativa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Efectividad Relativa de las Pokébolas por Pokémon}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pokémon}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_13_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    En el gráfico podemos ver claramente la efectividad de cada
+\textbf{Pokebola} en relación a la \textbf{Pokebola} básica y llegamos a
+la conclusión de que efectivamente es cierto que algunas
+\textbf{Pokebolas} son más o menos efectivas dependiendo de las
+propiedades intrínsecas de cada \textbf{Pokemon}. Por ejemplo la
+\textbf{Heavyball} es más efectiva que la \textbf{Pokebola} básica para
+atrapar al \textbf{Snorlax} pero menos efectiva para atrapar al
+\textbf{Mewtwo}. Otro ejemplo que también se puede ver en el gráfico es
+que la mejor \textbf{Pokebola} para atrapar al \textbf{Jolteon} es la
+\textbf{Fastball}. Estos resultados reflejan que la elección de la
+\textbf{Pokebola} adecuada puede influir significativamente en la
+probabilidad de captura de cada \textbf{Pokemon}.
+
+    \subsection{Punto 2a}\label{punto-2a}
+
+Veamos ahora como se ve afectada la efectividad para la captura de los
+\textbf{Pokemones} dependiendo de los estados de salud de los mismos.
+Para eso vamos a definir los estados de salud que vamos a estar
+analizando.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{effects} \PY{o}{=} \PY{p}{[}\PY{n}{StatusEffect}\PY{o}{.}\PY{n}{NONE}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{POISON}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{BURN}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{PARALYSIS}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{SLEEP}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{FREEZE}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Intentemos ahora calcular a \textbf{Onix} y a \textbf{Caterpie} 100
+veces cada uno en cada uno de los posibles estados de salud que
+definimos.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{pokemon\PYZus{}name} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{onix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{caterpie}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{:}
+    \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+    \PY{k}{for} \PY{n}{effect} \PY{o+ow}{in} \PY{n}{effects}\PY{p}{:}
+        \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{effect}\PY{o}{.}\PY{n}{name}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{n}{pokemon} \PY{o}{=} \PY{n}{factory}\PY{o}{.}\PY{n}{create}\PY{p}{(}\PY{n}{pokemon\PYZus{}name}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,} \PY{n}{effect}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+
+        \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+            \PY{n}{success}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{attempt\PYZus{}catch}\PY{p}{(}\PY{n}{pokemon}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pokeball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mf}{0.15}\PY{p}{)}
+            \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{effect}\PY{o}{.}\PY{n}{name}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{success}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Ahora grafiquemos para ver como varía la efectividad de los diferentes
+estados de salud.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{pokemon}\PY{p}{,} \PY{n}{result\PYZus{}data} \PY{o+ow}{in} \PY{n}{results}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{data} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{effect}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{r}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{for} \PY{n}{effect}\PY{p}{,} \PY{n}{r} \PY{o+ow}{in} \PY{n}{result\PYZus{}data}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{data}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{skyblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Estado de Salud}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Probabilidad de Captura}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Efecto del Estado de Salud en la Captura de }\PY{l+s+si}{\PYZob{}}\PY{n}{pokemon}\PY{o}{.}\PY{n}{capitalize}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{110}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{rate} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{rate}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{rate}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bottom}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    Por más que el porcentaje de efectividad en cada caso es diferente,
+podemos ver claramente como el estado de ``\emph{sueño}'' y
+``\emph{congelamiento}'' afectan en mucho mayor medida a la efectividad
+en la captura de los \textbf{Pokemones}. Incluso en menores grados,
+podemos ver que todos los efectos de salud, aumentan a la efectividad de
+la captura, ya que en comparación al caso de que no se haya aplicado
+ningún efecto, estos son mucho mayores.
+
+    \subsection{Punto 2b}\label{punto-2b}
+
+Veamos ahora, de forma similar, como afectan los puntos de vida
+restantes al intentar capturar a los \textbf{Pokemones}. Para este caso,
+usaremos los mismos \textbf{Pokemones} del caso anterior (\textbf{Onix}
+y \textbf{Caterpie}), manteniendo el nivel en 100, sin efectos de salud
+y utilizando la \textbf{Pokeball} básica.
+
+Definamos entonces para eso los valores de vida que estaremos
+utilizando.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{healths} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1.00}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0.75}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0.50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0.25}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0.01}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Ahora, intentemos atrapar a los \textbf{Pokemones} mencionados, 100
+veces cada uno por cada puntaje de vida disponible.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{pokemon\PYZus{}name} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{onix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{caterpie}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{:}
+    \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+    \PY{k}{for} \PY{n}{health} \PY{o+ow}{in} \PY{n}{healths}\PY{p}{:}
+        \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{health}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{n}{pokemon} \PY{o}{=} \PY{n}{factory}\PY{o}{.}\PY{n}{create}\PY{p}{(}\PY{n}{pokemon\PYZus{}name}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{NONE}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{health}\PY{p}{)}\PY{p}{)}
+
+        \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+            \PY{n}{success}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{attempt\PYZus{}catch}\PY{p}{(}\PY{n}{pokemon}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pokeball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{health}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{success}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Con los resultados disponibles, calculemos la efectividad en cada caso y
+grafiquemos los resultados.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{pokemon}\PY{p}{,} \PY{n}{result\PYZus{}data} \PY{o+ow}{in} \PY{n}{results}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{data} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{health}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{r}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{for} \PY{n}{health}\PY{p}{,} \PY{n}{r} \PY{o+ow}{in} \PY{n}{result\PYZus{}data}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{data}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{skyblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Porcentaje de vida}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Probabilidad de captura}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Efecto de la Vida en la Captura de }\PY{l+s+si}{\PYZob{}}\PY{n}{pokemon}\PY{o}{.}\PY{n}{capitalize}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{110}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{rate} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{rate}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{rate}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bottom}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    Se puede observar que cuando el nivel de vida es muy bajo, aumenta
+considerablemente la probabilidad de captura.
+
+    \subsection{Punto 2c}\label{punto-2c}
+
+Ya analizamos como varía la efectividad al agregar efectos de salud y al
+modificar los puntos de vida del \textbf{Pokemon}. Veamos por último
+como varía la efectividad al modificar el nivel de \textbf{Pokemon}.
+Nuevamente, probaremos con \textbf{Onix} y \textbf{Caterpie}, que son
+los que estuvimos utilizando hasta el momento. Definamos entonces los
+posibles niveles a probar.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{levels} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{25}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{75}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{100}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Manteniendo la vida al máximo y sin aplicar efectos de salud, veamos
+como varía la efectividad al intentar atrapar a los \textbf{Pokemones}
+mencionados 100 veces.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{pokemon\PYZus{}name} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{onix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{caterpie}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{:}
+    \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+    \PY{k}{for} \PY{n}{level} \PY{o+ow}{in} \PY{n}{levels}\PY{p}{:}
+        \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{level}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{n}{pokemon} \PY{o}{=} \PY{n}{factory}\PY{o}{.}\PY{n}{create}\PY{p}{(}\PY{n}{pokemon\PYZus{}name}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{level}\PY{p}{)}\PY{p}{,} \PY{n}{StatusEffect}\PY{o}{.}\PY{n}{NONE}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+
+        \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+            \PY{n}{success}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{attempt\PYZus{}catch}\PY{p}{(}\PY{n}{pokemon}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pokeball}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{p}{[}\PY{n}{level}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{success}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Con los resultados disponibles, calculemos la efectividad por cada nivel
+y grafiquemos los valores obtenidos.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{pokemon}\PY{p}{,} \PY{n}{result\PYZus{}data} \PY{o+ow}{in} \PY{n}{results}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{data} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{level}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{r}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{for} \PY{n}{level}\PY{p}{,} \PY{n}{r} \PY{o+ow}{in} \PY{n}{result\PYZus{}data}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{data}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{skyblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Nivel del Pokemon}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Probabilidad de captura}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Efecto del Nivel en la Captura de }\PY{l+s+si}{\PYZob{}}\PY{n}{pokemon}\PY{o}{.}\PY{n}{capitalize}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{rate} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{rate}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{rate}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bottom}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_34_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_34_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{El} \PY{n}{parametro} \PY{n}{que} \PY{n}{mas} \PY{n}{afecta} \PY{n}{la} \PY{n}{probabilidad} \PY{n}{de} \PY{n}{captura} \PY{n}{es} \PY{n}{el} \PY{n}{nivel} \PY{n}{de} \PY{n}{vida} \PY{n}{de} \PY{n}{un} \PY{n}{pokemon} \PY{n}{seguido} \PY{n}{por} \PY{n}{su} \PY{n}{estado} \PY{n}{de} \PY{n}{salud} \PY{n}{y} \PY{n}{por} \PY{n}{ultimo} \PY{n}{su} \PY{n}{nivel}\PY{o}{.}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Punto 2d}\label{punto-2d}
+
+Ya analizamos como afectan a la efectividad la variación de efectos de
+salud, puntos de vida restantes y el nivel del \textbf{Pokemon}. Veamos
+ahora como la combinación de diferentes valores de puntos de vida,
+estados de salud y \textbf{Pokeballs} diferentes.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{pokemon\PYZus{}name} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{onix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mewtwo}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{:}
+    \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{effect} \PY{o+ow}{in} \PY{n}{effects}\PY{p}{:}
+        \PY{k}{for} \PY{n}{health} \PY{o+ow}{in} \PY{n}{healths}\PY{p}{:}
+            \PY{k}{for} \PY{n}{ball} \PY{o+ow}{in} \PY{n}{pokeballs}\PY{p}{:}
+                \PY{n}{pokemon} \PY{o}{=} \PY{n}{factory}\PY{o}{.}\PY{n}{create}\PY{p}{(}\PY{n}{pokemon\PYZus{}name}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,} \PY{n}{effect}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{health}\PY{p}{)}\PY{p}{)}
+                \PY{n}{probs} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+                \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{success}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{attempt\PYZus{}catch}\PY{p}{(}\PY{n}{pokemon}\PY{p}{,} \PY{n}{ball}\PY{p}{)}
+                    \PY{n}{probs}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{success}\PY{p}{)}
+
+                \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{effect}\PY{o}{.}\PY{n}{name}\PY{p}{,} \PY{n}{health}\PY{p}{,} \PY{n}{ball}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{probs}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{pokemon}\PY{p}{,} \PY{n}{result\PYZus{}data} \PY{o+ow}{in} \PY{n}{results}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{data} \PY{o}{=} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{result\PYZus{}data}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{10}\PY{p}{:}\PY{p}{]}
+    \PY{n}{labels} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, HP }\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, }\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{data}\PY{p}{]}
+    \PY{n}{probs} \PY{o}{=} \PY{p}{[}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{data}\PY{p}{]}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{barh}\PY{p}{(}\PY{n}{labels}\PY{p}{,} \PY{n}{probs}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{skyblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Probabilidad de Captura}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Combinaciones}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Mejores Combinaciones para Captura de }\PY{l+s+si}{\PYZob{}}\PY{n}{pokemon}\PY{o}{.}\PY{n}{capitalize}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{110}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{rate} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{data}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{rate}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{rate}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{left}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    Como podemos ver para el caso del \textbf{Onix}, la mejor combinación es
+un bajo nivel de vida (1\%) y utilizar la \textbf{Ultraball}. Luego,
+como se puede ver, que el \textbf{Pokemon} se encuentre en estado de
+\emph{sueño} o \emph{congelamiento} afectan positivamente a la
+efectividad de la captura siendo las combinaciones más efectivas las
+siguientes:
+
+\begin{itemize}
+\tightlist
+\item
+  Sueño - 1\% HP - Ultraball
+\item
+  Congelamiento - 1\% HP - Ultraball
+\end{itemize}
+
+Por otro lado, para el caso de \textbf{Mewtwo}, el condicionante más
+relevante es la utilización de la \textbf{Fastball}. Luego, lógicamente
+además de la \textbf{Pokeball} utilizada, el hecho de que tenga poca
+vida, aumenta la efectividad de la captura, sin embargo, los efectos de
+los puntos de vida restantes no son tan relevantes. El efecto de
+\emph{parálisis} es el que más aumenta la efectividad, luego viene
+\emph{congelamiento}. Por lo tanto las combinaciones más efectivas son:
+
+\begin{itemize}
+\tightlist
+\item
+  Parálisis - 1\% HP - Fastball
+\item
+  Congelamiento - 25\% HP - Fastball
+\item
+  Congelamiento - 1\% HP - Fastball
+\end{itemize}
+
+    \subsection{Punto 2e}\label{punto-2e}
+
+Ya comparamos la combinación de efectos de salud, niveles de vida y
+tipos de \textbf{Pokeballs}. Veamos ahora que pasa si agregamos a la
+combinación, el nivel del \textbf{Pokemon}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{pokemon\PYZus{}name} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{onix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mewtwo}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{:}
+    \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{effect} \PY{o+ow}{in} \PY{n}{effects}\PY{p}{:}
+        \PY{k}{for} \PY{n}{health} \PY{o+ow}{in} \PY{n}{healths}\PY{p}{:}
+            \PY{k}{for} \PY{n}{level} \PY{o+ow}{in} \PY{n}{levels}\PY{p}{:}
+                \PY{k}{for} \PY{n}{ball} \PY{o+ow}{in} \PY{n}{pokeballs}\PY{p}{:}
+                    \PY{n}{pokemon} \PY{o}{=} \PY{n}{factory}\PY{o}{.}\PY{n}{create}\PY{p}{(}\PY{n}{pokemon\PYZus{}name}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{level}\PY{p}{)}\PY{p}{,} \PY{n}{effect}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{health}\PY{p}{)}\PY{p}{)}
+                    \PY{n}{probs} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+                    \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{:}
+                        \PY{n}{success}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{attempt\PYZus{}catch}\PY{p}{(}\PY{n}{pokemon}\PY{p}{,} \PY{n}{ball}\PY{p}{)}
+                        \PY{n}{probs}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{success}\PY{p}{)}
+
+                    \PY{n}{results}\PY{p}{[}\PY{n}{pokemon\PYZus{}name}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{effect}\PY{o}{.}\PY{n}{name}\PY{p}{,} \PY{n}{health}\PY{p}{,} \PY{n}{level}\PY{p}{,} \PY{n}{ball}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{probs}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{pokemon}\PY{p}{,} \PY{n}{result\PYZus{}data} \PY{o+ow}{in} \PY{n}{results}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{data} \PY{o}{=} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{result\PYZus{}data}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{10}\PY{p}{:}\PY{p}{]}
+    \PY{n}{labels} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, HP }\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, LVL }\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, }\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{data}\PY{p}{]}
+    \PY{n}{probs} \PY{o}{=} \PY{p}{[}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{data}\PY{p}{]}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{barh}\PY{p}{(}\PY{n}{labels}\PY{p}{,} \PY{n}{probs}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{skyblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Probabilidad de Captura}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Combinaciones}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Mejores Combinaciones para Captura de }\PY{l+s+si}{\PYZob{}}\PY{n}{pokemon}\PY{o}{.}\PY{n}{capitalize}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{110}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{rate} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{data}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{rate}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{rate}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{left}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_42_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_42_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    Como se puede observar, el hecho de variar el nivel del \textbf{Pokemon}
+afecta a la efectividad de captura. Evidentemente a niveles más bajos,
+la efectividad es más alta, esto se puede ver evidentemente tanto para
+\textbf{Onix} como para \textbf{Mewtwo}. Por lo tanto si se puede
+concluir que es efectiva la variación del nivel a un valor menor que el
+máximo.
+
+
+    % Add a bibliography block to the postdoc
+
+
+
+\end{document}

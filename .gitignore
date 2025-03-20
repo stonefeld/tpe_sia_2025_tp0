@@ -12,3 +12,9 @@ wheels/
 
 # Misc
 *.vim
+
+# latex
+*.aux
+*.log
+*.out
+*.toc
